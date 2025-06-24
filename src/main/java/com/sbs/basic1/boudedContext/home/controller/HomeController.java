@@ -1,15 +1,18 @@
 package com.sbs.basic1.boudedContext.home.controller;
 
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller // 스프링부트한테 이 클래스가 컨트롤러임을 알려줌
 public class HomeController {
@@ -165,4 +168,185 @@ public class HomeController {
 
     return map;
   }
+
+  @GetMapping("/home/returnArticle")
+  @ResponseBody
+  public Article showReturnArticle() {
+    Article article = new Article(1, "제목1", "내용1", "김철수", new ArrayList<>() {{
+      add("태그1");
+      add("태그2");
+      add("태그3");
+    }});
+
+    return article;
+  }
+
+  @GetMapping("/home/returnArticle2")
+  @ResponseBody
+  public Article2 showReturnArticle2() {
+    Article2 article = new Article2(1, "제목1", "내용1", "김철수", new ArrayList<>() {{
+      add("태그1");
+      add("태그2");
+      add("태그3");
+    }});
+
+    return article;
+  }
+
+  @GetMapping("/home/returnArticleMapList")
+  @ResponseBody
+  public List<Map<String, Object>> showReturnArticleMapList() {
+    Map<String, Object> articleMap1 = new LinkedHashMap<>() {{
+      put("id", 1);
+      put("title", "제목1");
+      put("content", "내용1");
+      put("writer", "김철수");
+      put("tags", new ArrayList<>() {{
+        add("태그1");
+        add("태그2");
+        add("태그3");
+      }});
+    }};
+
+    Map<String, Object> articleMap2 = new LinkedHashMap<>() {{
+      put("id", 2);
+      put("title", "제목2");
+      put("content", "내용2");
+      put("writer", "이영희");
+      put("tags", new ArrayList<>() {{
+        add("태그A");
+        add("태그B");
+        add("태그C");
+      }});
+    }};
+
+    Map<String, Object> articleMap3 = new LinkedHashMap<>() {{
+      put("id", 3);
+      put("title", "제목3");
+      put("content", "내용3");
+      put("writer", "박지민");
+      put("tags", new ArrayList<>() {{
+        add("태그X");
+        add("태그Y");
+        add("태그Z");
+      }});
+    }};
+
+    List<Map<String, Object>> articleMapList = new ArrayList<>();
+
+    articleMapList.add(articleMap1);
+    articleMapList.add(articleMap2);
+    articleMapList.add(articleMap3);
+
+    return articleMapList;
+  }
+
+  @GetMapping("/home/returnArticleList")
+  @ResponseBody
+  public List<Article2> showReturnArticleList() {
+    List<Article2> articleList = new ArrayList<>();
+
+    articleList.add(new Article2(1, "제목1", "내용1", "김철수", new ArrayList<>() {{
+      add("태그1");
+      add("태그2");
+      add("태그3");
+    }}));
+
+    articleList.add(new Article2(2, "제목2", "내용2", "이영희", new ArrayList<>() {{
+      add("태그A");
+      add("태그B");
+      add("태그C");
+    }}));
+
+    articleList.add(new Article2(3, "제목3", "내용3", "박지민", new ArrayList<>() {{
+      add("태그X");
+      add("태그Y");
+      add("태그Z");
+    }}));
+
+    return articleList;
+
+  }
+}
+
+class Article {
+  private int id;
+  private String title;
+  private String content;
+  private String writer;
+  private List<String> tags;
+
+  public int getId() {
+    return id;
+  }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public String getContent() {
+    return content;
+  }
+
+  public String getWriter() {
+    return writer;
+  }
+
+  public List<String> getTags() {
+    return tags;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
+  }
+
+  public void setContent(String content) {
+    this.content = content;
+  }
+
+  public void setWriter(String writer) {
+    this.writer = writer;
+  }
+
+  public void setTags(List<String> tags) {
+    this.tags = tags;
+  }
+
+  public Article() {
+
+  }
+
+  public Article(int id, String title, String content, String writer, List<String> tags) {
+    this.id = id;
+    this.title = title;
+    this.content = content;
+    this.writer = writer;
+    this.tags = tags;
+  }
+
+  @Override
+  public String toString() {
+    return "Article{" +
+        "id=" + id +
+        ", title='" + title + '\'' +
+        ", content='" + content + '\'' +
+        ", writer='" + writer + '\'' +
+        ", tags=" + tags +
+        '}';
+  }
+}
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+class Article2 {
+  private int id;
+  private String title;
+  private String content;
+  private String writer;
+  private List<String> tags;
 }
