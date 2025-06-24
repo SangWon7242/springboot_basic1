@@ -11,4 +11,16 @@ public class HomeController {
   public String showMain() {
     return "안녕하세요, 홈 페이지입니다.";
   }
+
+  @GetMapping("/home/main2")
+  @ResponseBody
+  public String showMain2() {
+    return "어서오세요. 홈 페이지2입니다.";
+  }
+
+  @GetMapping("/home/main3")
+  @ResponseBody
+  public String showMain3() {
+    return "반갑습니다. 홈 페이지3입니다.ㅇㅁㄴㅇㅁㄴ";
+  }
 }
