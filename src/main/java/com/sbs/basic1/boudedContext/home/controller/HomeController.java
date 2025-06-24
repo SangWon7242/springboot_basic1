@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.*;
+
 @Controller // 스프링부트한테 이 클래스가 컨트롤러임을 알려줌
 public class HomeController {
   int no;
@@ -45,13 +47,13 @@ public class HomeController {
     int b = Integer.parseInt(req.getParameter("b"));
     return a + b;
     */
-    
+
     // @RequestParam은 쿼리 파라미터를 매개변수로 전달받는다.
     // @RequestParam은 생략 가능하다.
     // @RequestParam을 생략하는 경우 쿼리 파라미터와 매개변수 이름은 일치해야 한다.
-    
+
     // 파라미터에 기본값을 주는 경우 @RequestParam(defaultValue = "0") 을 통해 기본값 지정 가능
-    
+
     return a + b;
   }
 
@@ -65,7 +67,7 @@ public class HomeController {
       // sb.append 는 문자열을 연결
       sb.append("<div>%d * %d = %d</div>\n".formatted(dan, i, dan * i));
     }
-    
+
     // sb.toString() 는 StringBuilder 객체를 문자열(String 타입)로 변환
     return sb.toString();
   }
@@ -83,5 +85,84 @@ public class HomeController {
 
     // sb.toString() 는 StringBuilder 객체를 문자열(String 타입)로 변환
     return sb.toString();
+  }
+
+  @GetMapping("/home/returnBoolean")
+  @ResponseBody
+  public boolean showReturnBoolean() {
+    return true;
+  }
+
+  @GetMapping("/home/returnDouble")
+  @ResponseBody
+  public double showReturnDouble() {
+    return Math.PI;
+  }
+
+  @GetMapping("/home/returnArray")
+  @ResponseBody
+  public int[] showReturnArray() {
+    int[] arr = {10, 20, 30, 40, 50};
+
+    return arr;
+  }
+
+  @GetMapping("/home/returnList")
+  @ResponseBody
+  public List<Integer> showReturnList() {
+    // List<Integer> list = List.of(10, 20, 30, 40, 50);
+
+    /*
+    List<Integer> list = new ArrayList<>){{
+      add(10);
+      add(20);
+      add(30);
+      add(40);
+      add(50);
+    }};
+    */
+
+    List<Integer> list = new ArrayList<>();
+    list.add(10);
+    list.add(20);
+    list.add(30);
+    list.add(40);
+    list.add(50);
+
+    return list;
+  }
+
+  @GetMapping("/home/returnMap")
+  @ResponseBody
+  public Map<String, Object> showReturnMap() {
+    /*
+    Map<String, Object> map = Map.of(
+        "no", ++no,
+        "name", "홍길동",
+        "age", 20,
+        "isMarried", false,
+        "height", 175.5,
+        "hobbies", new ArrayList<>() {{
+          add("독서");
+          add("등산");
+          add("영화 감상");
+        }}
+    );
+     */
+
+    Map<String, Object> map = new LinkedHashMap<>() {{
+      put("no", ++no);
+      put("name", "홍길동");
+      put("age", 20);
+      put("isMarried", false);
+      put("height", 175.5);
+      put("hobbies", new ArrayList<>() {{
+        add("독서");
+        add("등산");
+        add("영화 감상");
+      }});
+    }};
+
+    return map;
   }
 }
