@@ -17,9 +17,12 @@ import java.util.Map;
 @Controller // 스프링부트한테 이 클래스가 컨트롤러임을 알려줌
 public class HomeController {
   int no;
+  List<Person> personList;
 
   public HomeController() {
     no = -1;
+
+    personList = new ArrayList<>();
   }
 
 
@@ -265,7 +268,21 @@ public class HomeController {
     }}));
 
     return articleList;
+  }
 
+  @GetMapping("/home/addPerson")
+  @ResponseBody
+  public String addPerson(String name, int age) {
+    Person person = new Person(name, age);
+    personList.add(person);
+
+    return "%d번 사람이 추가되었습니다.".formatted(person.getId());
+  }
+
+  @GetMapping("/home/showPeople")
+  @ResponseBody
+  public List<Person> showPeople() {
+    return personList;
   }
 }
 
@@ -349,4 +366,22 @@ class Article2 {
   private String content;
   private String writer;
   private List<String> tags;
+}
+
+@AllArgsConstructor
+@Data
+class Person {
+  private static int lastId;
+  private final int id;
+  private String name;
+  private int age;
+
+  static {
+    lastId = 0;
+  }
+
+  // 생성자 오버로딩
+  public Person(String name, int age) {
+    this(++lastId, name, age);
+  }
 }
