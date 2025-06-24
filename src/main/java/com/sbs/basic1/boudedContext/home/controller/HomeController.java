@@ -1,7 +1,11 @@
 package com.sbs.basic1.boudedContext.home.controller;
 
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller // 스프링부트한테 이 클래스가 컨트롤러임을 알려줌
@@ -31,9 +35,22 @@ public class HomeController {
     return "반갑습니다. 홈 페이지3입니다.";
   }
 
-  @GetMapping("/home/increase")
+  @GetMapping("/home/plus")
   @ResponseBody
-  public int showIncrease() {
-    return ++no;
+  public int showPlus(@RequestParam(defaultValue = "0") int a, int b) {
+    /*
+    // HttpServletRequest와 HttpServletResponse를 사용하여 요청 파라미터를 가져오는 방법
+    int a = Integer.parseInt(req.getParameter("a"));
+    int b = Integer.parseInt(req.getParameter("b"));
+    return a + b;
+    */
+    
+    // @RequestParam은 쿼리 파라미터를 매개변수로 전달받는다.
+    // @RequestParam은 생략 가능하다.
+    // @RequestParam을 생략하는 경우 쿼리 파라미터와 매개변수 이름은 일치해야 한다.
+    
+    // 파라미터에 기본값을 주는 경우 @RequestParam(defaultValue = "0") 을 통해 기본값 지정 가능
+    
+    return a + b;
   }
 }
