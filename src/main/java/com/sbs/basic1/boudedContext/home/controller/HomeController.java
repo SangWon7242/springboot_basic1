@@ -53,4 +53,19 @@ public class HomeController {
     
     return a + b;
   }
+
+  @GetMapping("/home/gugudan")
+  @ResponseBody
+  public String showGugudan(@RequestParam(defaultValue = "9") int dan, @RequestParam(defaultValue = "9") int limit) {
+    StringBuilder sb = new StringBuilder();
+    sb.append("<h1>== 구구단 %d단 ==</h1>\n".formatted(dan));
+
+    for (int i = 1; i <= limit; i++) {
+      // sb.append 는 문자열을 연결
+      sb.append("<div>%d * %d = %d</div>\n".formatted(dan, i, dan * i));
+    }
+    
+    // sb.toString() 는 StringBuilder 객체를 문자열(String 타입)로 변환
+    return sb.toString();
+  }
 }
