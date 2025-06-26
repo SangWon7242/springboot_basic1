@@ -9,9 +9,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class MemberController {
   private final MemberService memberService;
-
-  public MemberController() {
-    memberService = new MemberService();
+  
+  // 생성자 주입 방식
+  public MemberController(MemberService memberService) {
+    this.memberService = memberService;
   }
 
   @GetMapping("/member/login")

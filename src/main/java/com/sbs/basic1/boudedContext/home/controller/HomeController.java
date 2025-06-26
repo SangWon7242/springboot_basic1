@@ -1,11 +1,14 @@
 package com.sbs.basic1.boudedContext.home.controller;
 
+import com.sbs.basic1.boudedContext.member.entity.Member;
+import com.sbs.basic1.boudedContext.member.service.MemberService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,10 +23,20 @@ public class HomeController {
   int no;
   List<Person> personList;
 
+  // 필드 주입 방식
+  @Autowired // 스프링부트가 자동으로 MemberService 객체를 주입해줌
+  private MemberService memberService;
+
   public HomeController() {
     no = -1;
 
     personList = new ArrayList<>();
+  }
+
+  @GetMapping("/home/user1")
+  @ResponseBody
+  public Member showUser1() {
+    return memberService.findByUsername("user1");
   }
 
 

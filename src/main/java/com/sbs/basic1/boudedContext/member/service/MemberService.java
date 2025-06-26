@@ -3,7 +3,12 @@ package com.sbs.basic1.boudedContext.member.service;
 import com.sbs.basic1.boudedContext.base.rsData.RsData;
 import com.sbs.basic1.boudedContext.member.entity.Member;
 import com.sbs.basic1.boudedContext.member.repository.MemberRepository;
+import org.springframework.stereotype.Service;
 
+@Service // 스프링부트한테 이 클래스가 서비스 클래스임을 알려줌
+// 아래 클래스는 Ioc 컨테이너에 등록되어 관리됨
+// @Service 어노테이션을 사용하면 @Component 어노테이션이 붙은 클래스와 동일하게 동작함
+// @Component
 public class MemberService {
   private MemberRepository memberRepository;
 
@@ -23,5 +28,9 @@ public class MemberService {
     }
 
     return RsData.of("S-1", "'%s'님 로그인 성공하였습니다.".formatted(username));
+  }
+
+  public Member findByUsername(String username) {
+    return memberRepository.findByUsername(username);
   }
 }
