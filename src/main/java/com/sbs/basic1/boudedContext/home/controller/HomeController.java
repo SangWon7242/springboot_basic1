@@ -1,5 +1,8 @@
 package com.sbs.basic1.boudedContext.home.controller;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,10 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.util.*;
 
 @Controller // 스프링부트한테 이 클래스가 컨트롤러임을 알려줌
 public class HomeController {
@@ -62,6 +63,13 @@ public class HomeController {
 
     return a + b;
   }
+
+  @GetMapping("/home/increaseNo")
+  @ResponseBody
+  public int showIncreaseNo() {
+    return ++no;
+  }
+
 
   @GetMapping("/home/gugudan")
   @ResponseBody
@@ -292,7 +300,7 @@ public class HomeController {
   @GetMapping("/home/removePerson")
   @ResponseBody
   public String removePerson(@RequestParam(defaultValue = "0") int id) {
-    if(id == 0) {
+    if (id == 0) {
       return "삭제할 사람의 id를 입력해주세요.";
     }
 
@@ -328,7 +336,7 @@ public class HomeController {
     // 조건에 맞는 결과를 찾으면 true를 반환하고, 없으면 false를 반환
     // true를 반환하면 해당 조건에 맞는 객체가 삭제됨
 
-    if(!removed) {
+    if (!removed) {
       return "%d번 사람은 존재하지 않습니다.".formatted(id);
     }
 
@@ -360,7 +368,7 @@ public class HomeController {
         .findFirst()
         .orElse(null);
 
-    if(p == null) {
+    if (p == null) {
       return "%d번 사람은 존재하지 않습니다.".formatted(id);
     }
 
@@ -374,6 +382,38 @@ public class HomeController {
   @ResponseBody
   public List<Person> showPeople() {
     return personList;
+  }
+
+  @GetMapping("/home/cookie/increase")
+  @ResponseBody
+  public int showCookieIncrease(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    // HttpServletRequest req: 받은 요청에 대한 정보(받은 편지)
+    // HttpServletResponse resp: 응답에 대한 정보(보낼 편지)
+
+    int countInCookie = 0;
+
+    if (req.getCookies() != null) {
+      countInCookie = Arrays.stream(req.getCookies()) // 쿠키 배열을 스트림으로 변환
+          .filter(cookie -> cookie.getName().equals("count")) // 쿠키 이름이 "count"인 쿠키만 필터링
+          .map(cookie -> cookie.getValue()) // 쿠키의 값을 가져옴
+          .mapToInt(Integer::parseInt) // 문자열 값을 정수로 변환
+          .findAny() // 필터링된 쿠키 중 아무거나 하나를 찾음
+          .orElse(0); // 만약 찾지 못하면 기본값 0을 사용
+    }
+
+    int newCountInCookie = countInCookie + 1;
+
+    resp.addCookie(new Cookie("count", newCountInCookie + ""));
+
+    return newCountInCookie;
+  }
+
+  @GetMapping("/home/cookie/reqAndResp")
+  @ResponseBody
+  public void showReqAndResp(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    int age = Integer.parseInt(req.getParameter("age"));
+
+    resp.getWriter().append("Hello, World! Your age is: %d".formatted(age));
   }
 }
 
