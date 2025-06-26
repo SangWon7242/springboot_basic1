@@ -270,6 +270,16 @@ public class HomeController {
     return articleList;
   }
 
+  @GetMapping("/home/personTestCase")
+  @ResponseBody
+  public String personTestCase() {
+    personList.add(new Person("홍길동", 11));
+    personList.add(new Person("김철수", 22));
+    personList.add(new Person("이영희", 33));
+
+    return "테스트 케이스 추가";
+  }
+
   @GetMapping("/home/addPerson")
   @ResponseBody
   public String addPerson(String name, int age) {
@@ -277,6 +287,54 @@ public class HomeController {
     personList.add(person);
 
     return "%d번 사람이 추가되었습니다.".formatted(person.getId());
+  }
+
+  @GetMapping("/home/removePerson")
+  @ResponseBody
+  public String removePerson(@RequestParam(defaultValue = "0") int id) {
+    if(id == 0) {
+      return "삭제할 사람의 id를 입력해주세요.";
+    }
+
+    // v1 : 스트림 방식 사용 안한 버전
+    /*
+    Person target = null;
+    for(Person p : personList) {
+      if(p.getId() == id) {
+        target = p;
+        break;
+      }
+    }
+
+    if(target == null) {
+      return "%d번 사람은 존재하지 않습니다.".formatted(id);
+    }
+    */
+
+    // v2 : 스트림 방식 사용 버전
+    /*
+    Person p = personList.stream()
+        .filter(person -> person.getId() == id)
+        .findFirst()
+        .orElse(null);
+
+
+    if(p == null) {
+      return "%d번 사람은 존재하지 않습니다.".formatted(id);
+    }
+    */
+
+    // v3
+
+    boolean removed = personList.removeIf(p -> p.getId() == id);
+    // 조건에 맞는 결과를 찾으면 true를 반환하고, 없으면 false를 반환
+    // true를 반환하면 해당 조건에 맞는 객체가 삭제됨
+
+    if(!removed) {
+      return "%d번 사람은 존재하지 않습니다.".formatted(id);
+    }
+
+    return "%d번 사람이 제거되었습니다.".formatted(id);
   }
 
   @GetMapping("/home/showPeople")
