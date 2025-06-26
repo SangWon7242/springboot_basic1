@@ -318,14 +318,12 @@ public class HomeController {
         .findFirst()
         .orElse(null);
 
-
     if(p == null) {
       return "%d번 사람은 존재하지 않습니다.".formatted(id);
     }
     */
 
-    // v3
-
+    // v3 : removeIf 메서드 사용 버전
     boolean removed = personList.removeIf(p -> p.getId() == id);
     // 조건에 맞는 결과를 찾으면 true를 반환하고, 없으면 false를 반환
     // true를 반환하면 해당 조건에 맞는 객체가 삭제됨
@@ -335,6 +333,41 @@ public class HomeController {
     }
 
     return "%d번 사람이 제거되었습니다.".formatted(id);
+  }
+
+  @GetMapping("/home/modifyPerson")
+  @ResponseBody
+  public String modifyPerson(int id, String name, int age) {
+
+    // v1 : 스트림 방식 사용 안한 버전
+    /*
+    Person target = null;
+    for(Person p : personList) {
+      if(p.getId() == id) {
+        target = p;
+        break;
+      }
+    }
+
+    if(target == null) {
+      return "%d번 사람은 존재하지 않습니다.".formatted(id);
+    }
+    */
+
+    // v2 : 스트림 방식 사용 버전
+    Person p = personList.stream()
+        .filter(person -> person.getId() == id)
+        .findFirst()
+        .orElse(null);
+
+    if(p == null) {
+      return "%d번 사람은 존재하지 않습니다.".formatted(id);
+    }
+
+    p.setName(name);
+    p.setAge(age);
+
+    return "%d번 사람이 수정되었습니다.".formatted(id);
   }
 
   @GetMapping("/home/showPeople")
