@@ -1,13 +1,24 @@
 package com.sbs.basic1.boudedContext.member.service;
 
 import com.sbs.basic1.boudedContext.base.rsData.RsData;
+import com.sbs.basic1.boudedContext.member.entity.Member;
+import com.sbs.basic1.boudedContext.member.repository.MemberRepository;
 
 public class MemberService {
+  private MemberRepository memberRepository;
+
+  public MemberService() {
+    memberRepository = new MemberRepository();
+  }
+
   public RsData tryLogin(String username, String password) {
-    if(!username.equals("user1")) {
+    Member member = memberRepository.findByUsername(username);
+
+    if(member == null) {
       return RsData.of("F-3", "%s(은)는 존재하지 않는 아이디입니다.".formatted(username));
     }
-    else if(!password.equals("1234")) {
+
+    if(!member.getPassword().equals(password)) {
       return RsData.of("F-4", "비밀번호가 일치하지 않습니다.");
     }
 
