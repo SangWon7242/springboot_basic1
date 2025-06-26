@@ -395,7 +395,7 @@ public class HomeController {
     if (req.getCookies() != null) {
       countInCookie = Arrays.stream(req.getCookies()) // 쿠키 배열을 스트림으로 변환
           .filter(cookie -> cookie.getName().equals("count")) // 쿠키 이름이 "count"인 쿠키만 필터링
-          .map(cookie -> cookie.getValue()) // 쿠키의 값을 가져옴
+          .map(Cookie::getValue) // 쿠키의 값을 가져옴
           .mapToInt(Integer::parseInt) // 문자열 값을 정수로 변환
           .findAny() // 필터링된 쿠키 중 아무거나 하나를 찾음
           .orElse(0); // 만약 찾지 못하면 기본값 0을 사용
