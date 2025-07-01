@@ -27,7 +27,7 @@ public class MemberService {
       return RsData.of("F-4", "비밀번호가 일치하지 않습니다.");
     }
 
-    return RsData.of("S-1", "'%s'님 로그인 성공하였습니다.".formatted(username), member.getId());
+    return RsData.of("S-1", "'%s'님 로그인 성공하였습니다.".formatted(username), member);
   }
 
   public Member findByUsername(String username) {
