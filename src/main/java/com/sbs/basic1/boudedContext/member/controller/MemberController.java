@@ -19,33 +19,13 @@ public class MemberController {
   private final Rq rq;
 
   @GetMapping("/member/login")
-  @ResponseBody
-  public String showLogin() {
-    if(rq.isLogined()) {
-      return """
-            <script>
-              alert('이미 로그인 상태입니다.');
-            </script>
-            """;
-    }
-
-    return """
-        <h1>로그인 테스트 폼</h1>
-        <form action="doLogin" method="POST">
-        	<div>
-        		<input type="text" name="username" placeholder="아이디를 입력해주세요.">
-        	</div>
-        	<div>
-        		<input type="password" name="password" placeholder="비밀번호를 입력해주세요.">
-        	</div>
-        	<button type="submit">로그인</button>
-        </form>
-        """;
+  public String login() {
+    return "usr/member/login";
   }
 
-  @PostMapping("/member/doLogin")
+  @PostMapping("/member/login")
   @ResponseBody
-  public RsData doLogin(String username, String password) {
+  public RsData login(String username, String password) {
 
     if (username == null || username.isBlank()) {
       return RsData.of("F-1", "아이디를 입력해주세요.");
