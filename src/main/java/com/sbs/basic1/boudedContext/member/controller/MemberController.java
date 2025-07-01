@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class MemberController {
   private final MemberService memberService;
+  private final Rq rq;
 
   @GetMapping("/member/login")
   @ResponseBody
-  public RsData login(String username, String password, HttpServletRequest req, HttpServletResponse resp) {
-    Rq rq = new Rq(req, resp);
+  public RsData login(String username, String password) {
 
     if (username == null || username.isBlank()) {
       return RsData.of("F-1", "아이디를 입력해주세요.");
@@ -41,9 +41,7 @@ public class MemberController {
 
   @GetMapping("/member/logout")
   @ResponseBody
-  public RsData logout(HttpServletRequest req, HttpServletResponse resp) {
-    Rq rq = new Rq(req, resp);
-
+  public RsData logout() {
     boolean cookieRemoved = rq.removeCookie("loginedMemberId");
 
     if(!cookieRemoved) {
@@ -55,17 +53,15 @@ public class MemberController {
 
   @GetMapping("/member/me")
   @ResponseBody
-  public RsData showMe(String username, String password, HttpServletRequest req, HttpServletResponse resp) {
-    Rq rq = new Rq(req, resp);
-
-    long loignedMemberId = rq.getCookieAsLong("loginedMemberId", 0L);
-    boolean isLogined = loignedMemberId > 0;
+  public RsData showMe() {
+    long loginedMemberId = rq.getCookieAsLong("loginedMemberId", 0L);
+    boolean isLogined = loginedMemberId > 0;
 
     if(!isLogined) {
       return RsData.of("F-1", "로그인 후 이용해주세요.");
     }
 
-    Member member = memberService.findById(loignedMemberId);
+    Member member = memberService.findById(loginedMemberId);
 
     return RsData.of("S-1", "당신의 username(은)는 %s 입니다.".formatted(member.getUsername()));
   }
