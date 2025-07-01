@@ -21,17 +21,18 @@ public class Rq {
   }
 
   public boolean removeCookie(String name) {
-    if (req.getCookies() != null) {
-      Arrays.stream(req.getCookies())
-          .filter(cookie -> cookie.getName().equals("loginedMemberId"))
-          .forEach(e -> {
-            e.setMaxAge(0); // 쿠키를 삭제하기 위해 maxAge를 0으로 설정
-            resp.addCookie(e);
-          }); // 쿠키 삭제
+    Cookie cookie = Arrays.stream(req.getCookies())
+        .filter(c -> c.getName().equals(name))
+        .findFirst()
+        .orElse(null);
+
+    if (cookie != null) {
+      cookie.setMaxAge(0); // 쿠키를 삭제하기 위해 만료 시간을 0으로 설정
+      resp.addCookie(cookie); // 변경된 쿠키를 응답에 추가
+      return true; // 쿠키가 성공적으로 삭제됨
     }
 
-    // anyMatch : 조건을 만족하면 true, 조건이 일치하지 않으면 false
-    return Arrays.stream(req.getCookies()).anyMatch(cookie -> cookie.getName().equals(name));
+    return false;
   }
 
   public long getCookieAsLong(String name, long defaultValue) {
