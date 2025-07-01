@@ -3,11 +3,13 @@ package com.sbs.basic1.boudedContext.base.rq.Rq;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
 import java.util.Arrays;
+import java.util.List;
 
 @AllArgsConstructor
 @Component
@@ -60,5 +62,58 @@ public class Rq {
         .map(Cookie::getValue)
         .findFirst()
         .orElse(defaultValue);
+  }
+
+  public void setSession(String name, long value) {
+    HttpSession session = req.getSession();
+    session.setAttribute(name, value);
+  }
+
+  public long getSessionAsLong(String name, long defaultValue) {
+    try {
+      long value = (long) req.getSession().getAttribute(name);
+      return value;
+    } catch (NumberFormatException e) {
+      return defaultValue;
+    }
+  }
+
+  public String getSessionAsStr(String name, String defaultValue) {
+    try {
+      String value = (String) req.getSession().getAttribute(name);
+      return value != null ? value : defaultValue;
+    } catch (ClassCastException e) {
+      return defaultValue;
+    }
+  }
+
+  public boolean removeSession(String name) {
+    HttpSession session = req.getSession();
+
+    if(session.getAttribute(name) == null) return false;
+
+    session.removeAttribute(name);
+    return true;
+  }
+
+  // 디버깅용 함수
+  public String getSessionDebugInfo() {
+    HttpSession session = req.getSession();
+
+    // 세션 ID
+    String sessionId = session.getId();
+
+    // 세션 속성 목록
+    var attributeNames = session.getAttributeNames();
+
+    // 세션 정보를 출력
+    StringBuilder sessionInfo = new StringBuilder("Session ID: " + sessionId + "\nAttributes:\n");
+    while (attributeNames.hasMoreElements()) {
+      String name = attributeNames.nextElement();
+      Object value = session.getAttribute(name);
+      sessionInfo.append(name).append(": ").append(value).append("\n");
+    }
+
+    return sessionInfo.toString();
   }
 }

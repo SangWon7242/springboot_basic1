@@ -21,4 +21,5 @@ public class RsData {
   public boolean isSuccess() {
     return resultCode.startsWith("S-");
   }
+
 }
