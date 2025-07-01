@@ -73,7 +73,7 @@ public class Rq {
     try {
       long value = (long) req.getSession().getAttribute(name);
       return value;
-    } catch (NumberFormatException e) {
+    } catch (Exception e) {
       return defaultValue;
     }
   }
@@ -115,5 +115,14 @@ public class Rq {
     }
 
     return sessionInfo.toString();
+  }
+
+  public boolean isLogined() {
+    long loginedMemberId = getSessionAsLong("loginedMemberId", 0L);
+    return loginedMemberId > 0;
+  }
+
+  public boolean isLogout() {
+    return !isLogined();
   }
 }

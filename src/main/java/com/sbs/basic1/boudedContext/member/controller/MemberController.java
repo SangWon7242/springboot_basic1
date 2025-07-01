@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @AllArgsConstructor
@@ -19,7 +20,32 @@ public class MemberController {
 
   @GetMapping("/member/login")
   @ResponseBody
-  public RsData login(String username, String password) {
+  public String showLogin() {
+    if(rq.isLogined()) {
+      return """
+            <script>
+              alert('이미 로그인 상태입니다.');
+            </script>
+            """;
+    }
+
+    return """
+        <h1>로그인 테스트 폼</h1>
+        <form action="doLogin" method="POST">
+        	<div>
+        		<input type="text" name="username" placeholder="아이디를 입력해주세요.">
+        	</div>
+        	<div>
+        		<input type="password" name="password" placeholder="비밀번호를 입력해주세요.">
+        	</div>
+        	<button type="submit">로그인</button>
+        </form>
+        """;
+  }
+
+  @PostMapping("/member/doLogin")
+  @ResponseBody
+  public RsData doLogin(String username, String password) {
 
     if (username == null || username.isBlank()) {
       return RsData.of("F-1", "아이디를 입력해주세요.");
@@ -28,10 +54,10 @@ public class MemberController {
     if (password == null || password.isBlank()) {
       return RsData.of("F-2", "비밀번호를 입력해주세요.");
     }
-    
+
     RsData rsData = memberService.tryLogin(username, password);
 
-    if(rsData.isSuccess()) {
+    if (rsData.isSuccess()) {
       Member member = (Member) rsData.getData();
       rq.setSession("loginedMemberId", member.getId());
     }
@@ -44,7 +70,7 @@ public class MemberController {
   public RsData logout() {
     boolean cookieRemoved = rq.removeSession("loginedMemberId");
 
-    if(!cookieRemoved) {
+    if (!cookieRemoved) {
       return RsData.of("F-1", "로그아웃에 실패하였습니다. 이미 로그아웃 상태입니다.");
     }
 
@@ -57,7 +83,7 @@ public class MemberController {
     long loginedMemberId = rq.getSessionAsLong("loginedMemberId", 0L);
     boolean isLogined = loginedMemberId > 0;
 
-    if(!isLogined) {
+    if (!isLogined) {
       return RsData.of("F-1", "로그인 후 이용해주세요.");
     }
 
