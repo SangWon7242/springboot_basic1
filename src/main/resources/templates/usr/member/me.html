@@ -1,14 +1,20 @@
-<meta charset="UTF-8">
-
 <h1>마이페이지</h1>
 
-<div>
-  <span>
-    회원번호 : [[${member.id}]]
-  </span>
+<div th:if="${member != null}">
+  <div>
+    <span>
+      회원번호 : [[${member.id}]]
+    </span>
+  </div>
+  <div>
+    <span>
+      아이디 : [[${member.username}]]
+    </span>
+  </div>
 </div>
-<div>
+
+<div th:if="${member == null}">
   <span>
-    아이디 : [[${member.username}]]
+    로그인 후 이용해주세요.
   </span>
 </div>
