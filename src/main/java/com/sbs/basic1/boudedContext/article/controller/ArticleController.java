@@ -1,7 +1,6 @@
 package com.sbs.basic1.boudedContext.article.controller;
 
 import com.sbs.basic1.boudedContext.article.entity.Article;
-import com.sbs.basic1.boudedContext.article.repository.ArticleRepository;
 import com.sbs.basic1.boudedContext.article.service.ArticleService;
 import com.sbs.basic1.boudedContext.base.rsData.RsData;
 import lombok.RequiredArgsConstructor;
@@ -9,9 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Controller
 @RequestMapping("/article")

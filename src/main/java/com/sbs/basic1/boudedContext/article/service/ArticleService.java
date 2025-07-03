@@ -14,8 +14,6 @@ public class ArticleService {
 
   public Article save(String title, String content) {
     Article article = Article.builder()
-        .createDate(LocalDateTime.now())
-        .modifiedDate(LocalDateTime.now())
         .title(title)
         .content(content)
         .build();
