@@ -2,14 +2,12 @@
 
 <div th:if="${member != null}">
   <div>
-    <span>
-      회원번호 : [[${member.id}]]
-    </span>
+    <span>번호 : </span>
+    <span th:text="${member.id}"></span>
   </div>
   <div>
-    <span>
-      아이디 : [[${member.username}]]
-    </span>
+    <span>아이디 : </span>
+    <span th:text="${member.username}"></span>
   </div>
 </div>
 
