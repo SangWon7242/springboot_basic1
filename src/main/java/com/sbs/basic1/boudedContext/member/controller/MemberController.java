@@ -4,26 +4,27 @@ import com.sbs.basic1.boudedContext.base.rq.Rq.Rq;
 import com.sbs.basic1.boudedContext.base.rsData.RsData;
 import com.sbs.basic1.boudedContext.member.entity.Member;
 import com.sbs.basic1.boudedContext.member.service.MemberService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @AllArgsConstructor
 @Controller
+@RequestMapping("/member")
 public class MemberController {
   private final MemberService memberService;
   private final Rq rq;
 
-  @GetMapping("/member/login")
+  @GetMapping("/login")
   public String login() {
     return "usr/member/login";
   }
 
-  @PostMapping("/member/login")
+  @PostMapping("/login")
   @ResponseBody
   public RsData login(String username, String password) {
 
@@ -45,7 +46,7 @@ public class MemberController {
     return rsData;
   }
 
-  @GetMapping("/member/logout")
+  @GetMapping("/logout")
   @ResponseBody
   public RsData logout() {
     boolean cookieRemoved = rq.removeSession("loginedMemberId");
@@ -57,7 +58,7 @@ public class MemberController {
     return RsData.of("S-1", "로그아웃 되었습니다.");
   }
 
-  @GetMapping("/member/me")
+  @GetMapping("/me")
   public String showMe(Model model) {
     long loginedMemberId = rq.getLoginedMember();
 
@@ -67,7 +68,7 @@ public class MemberController {
     return "usr/member/me";
   }
 
-  @GetMapping("/member/session")
+  @GetMapping("/session")
   @ResponseBody
   public String showSession() {
     return rq.getSessionDebugInfo().replaceAll("\n", "<br>");
