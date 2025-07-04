@@ -26,8 +26,8 @@ public class ArticleController {
       return RsData.of("F-2", "내용을 입력해주세요.");
     }
     
-    Article createArticle = articleService.save(title, content);
+    Article createArticle = articleService.write(title, content);
 
-    return RsData.of("S-1", "1번 글이 생성되었습니다.", createArticle);
+    return RsData.of("S-1", "%d번 글이 생성되었습니다.".formatted(createArticle.getId()), createArticle);
   }
 }

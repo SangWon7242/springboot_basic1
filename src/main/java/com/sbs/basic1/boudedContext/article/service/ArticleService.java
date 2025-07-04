@@ -5,14 +5,12 @@ import com.sbs.basic1.boudedContext.article.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-
 @Service
 @RequiredArgsConstructor
 public class ArticleService {
   private final ArticleRepository articleRepository;
 
-  public Article save(String title, String content) {
+  public Article write(String title, String content) {
     Article article = Article.builder()
         .title(title)
         .content(content)

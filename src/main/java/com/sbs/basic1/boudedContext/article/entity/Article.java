@@ -20,7 +20,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Data
 @EntityListeners(AuditingEntityListener.class) // INSERT, UPDATE 시점에 Auditing 기능을 활성화
 public class Article {
-  @Id
+  @Id // Primary Key로 설정
   @GeneratedValue(strategy = IDENTITY) // AUTO-INCREMENT
   private Long id;
 
