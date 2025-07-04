@@ -27,4 +27,8 @@ public class ArticleService {
   public List<Article> findAll() {
     return articleRepository.findAll();
   }
+
+  public List<Article> findAllByOrderByIdDesc() {
+    return articleRepository.findAllByOrderByIdDesc();
+  }
 }

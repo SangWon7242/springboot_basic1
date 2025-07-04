@@ -36,7 +36,15 @@ public class ArticleController {
 
   @GetMapping("/list")
   public String showList(Model model) {
-    List<Article> articles = articleService.findAll();
+    List<Article> articles = articleService.findAllByOrderByIdDesc();
+
+    // findAll
+    // SELECT * FROM article;
+
+    // 우리가 원하는 실행 쿼리
+    // SELECT * FROM article ORDER BY id DESC;
+    // findAll() 메서드는 기본적으로 모든 데이터를 가져오지만, 정렬은 하지 않습니다.
+    // 따라서, 정렬이 필요한 경우에는 별도의 쿼리를 작성하거나, JPA의 정렬 기능을 활용해야 합니다.
 
     model.addAttribute("articles", articles);
 
