@@ -2,6 +2,8 @@
 #  port: 8080
 
 spring:
+  profiles:
+    active: dev # 활성화할 프로파일 설정
   output:
     ansi:
       enabled: always # 콘솔 색상 변경
