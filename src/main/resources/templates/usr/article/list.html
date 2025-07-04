@@ -14,7 +14,10 @@
     <!-- Assuming articles is a list of article objects passed to the template -->
     <tr th:each="article : ${articles}">
       <td th:text="${article.id}"></td>
-      <td th:text="${article.title}"></td>
+      <td>
+        <a th:href="@{|/article/detail?id=${article.id}|}" th:text="${article.title}"></a>
+<!--        <a href="/article/detail?id=${article.id}" th:text="${article.title}"></a>-->
+      </td>
       <td th:text="${#temporals.format(article.createDate, 'yyyy-MM-dd HH:mm')}"></td>
     </tr>
   </tbody>

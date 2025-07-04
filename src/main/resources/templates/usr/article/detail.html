@@ -1,0 +1,21 @@
+<meta charset="UTF-8">
+
+<h1>
+  <span th:text="${article.id}"></span>
+  <span>번 게시물 상세보기</span>
+</h1>
+
+<div>
+  <div>
+    <span>제목: </span>
+    <span th:text="${article.title}"></span>
+  </div>
+  <div>
+    <span>작성일: </span>
+    <span th:text="${#temporals.format(article.createDate, 'yyyy-MM-dd HH:mm')}"></span>
+  </div>
+  <div>
+    <span>내용: </span>
+    <span th:text="${article.content}"></span>
+  </div>
+</div>

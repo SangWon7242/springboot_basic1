@@ -31,4 +31,9 @@ public class ArticleService {
   public List<Article> findAllByOrderByIdDesc() {
     return articleRepository.findAllByOrderByIdDesc();
   }
+
+  public Article findById(Long id) {
+    return articleRepository.findById(id)
+        .orElse(null); // Optional에서 값을 꺼내고, 값이 없으면 null을 반환
+  }
 }

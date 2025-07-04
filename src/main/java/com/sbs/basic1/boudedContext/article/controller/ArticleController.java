@@ -54,4 +54,22 @@ public class ArticleController {
 
     return "usr/article/list";
   }
+
+  @GetMapping("/detail")
+  public String showDetail(@RequestParam(defaultValue = "0") Long id, Model model) {
+    // redirect : 리다이렉트는 클라이언트에게 다른 URL로 이동하라고 지시하는 것입니다.
+    if(id == 0) {
+      return "redirect:/article/list";
+    }
+
+    Article article = articleService.findById(id);
+
+    if(article == null) {
+      return "redirect:/article/list";
+    }
+
+    model.addAttribute("article", article);
+
+    return "usr/article/detail";
+  }
 }
