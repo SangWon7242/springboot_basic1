@@ -5,6 +5,7 @@ import com.sbs.basic1.boudedContext.base.rsData.RsData;
 import com.sbs.basic1.boudedContext.member.entity.Member;
 import com.sbs.basic1.boudedContext.member.service.MemberService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,8 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-@AllArgsConstructor
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/member")
 public class MemberController {
   private final MemberService memberService;
