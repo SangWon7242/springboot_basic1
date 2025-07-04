@@ -5,6 +5,8 @@ import com.sbs.basic1.boudedContext.article.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ArticleService {
@@ -20,5 +22,9 @@ public class ArticleService {
     // articleRepository.save() 메서드는 저장된 엔티티를 반환합니다.
 
     return article;
+  }
+
+  public List<Article> findAll() {
+    return articleRepository.findAll();
   }
 }

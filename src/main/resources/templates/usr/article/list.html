@@ -1,0 +1,21 @@
+<meta charset="UTF-8">
+
+<h1>게시물 리스트</h1>
+
+<table border="1">
+  <thead>
+    <tr>
+      <th>번호</th>
+      <th>제목</th>
+      <th>작성일</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Assuming articles is a list of article objects passed to the template -->
+    <tr th:each="article : ${articles}">
+      <td th:text="${article.id}"></td>
+      <td th:text="${article.title}"></td>
+      <td th:text="${#temporals.format(article.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+    </tr>
+  </tbody>
+</table>

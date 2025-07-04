@@ -5,9 +5,12 @@ import com.sbs.basic1.boudedContext.article.service.ArticleService;
 import com.sbs.basic1.boudedContext.base.rsData.RsData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/article")
@@ -29,5 +32,14 @@ public class ArticleController {
     Article createArticle = articleService.write(title, content);
 
     return RsData.of("S-1", "%d번 글이 생성되었습니다.".formatted(createArticle.getId()), createArticle);
+  }
+
+  @GetMapping("/list")
+  public String showList(Model model) {
+    List<Article> articles = articleService.findAll();
+
+    model.addAttribute("articles", articles);
+
+    return "usr/article/list";
   }
 }
