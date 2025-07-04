@@ -1,9 +1,6 @@
 package com.sbs.basic1.boudedContext.base.initData;
 
-import com.sbs.basic1.boudedContext.article.entity.Article;
 import com.sbs.basic1.boudedContext.article.service.ArticleService;
-import com.sbs.basic1.boudedContext.base.rq.Rq.Rq;
-import com.sbs.basic1.boudedContext.member.repository.MemberRepository;
 import com.sbs.basic1.boudedContext.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;

@@ -20,6 +20,32 @@ public class MemberController {
   private final MemberService memberService;
   private final Rq rq;
 
+  @GetMapping("/join")
+  public String join() {
+    return "usr/member/join";
+  }
+
+  @PostMapping("/join")
+  @ResponseBody
+  public RsData join(String username, String password) {
+
+    if (username == null || username.trim().isBlank()) {
+      return RsData.of("F-1", "아이디를 입력해주세요.");
+    }
+
+    if (password == null || password.trim().isBlank()) {
+      return RsData.of("F-2", "비밀번호를 입력해주세요.");
+    }
+
+    if(memberService.findByUsername(username) != null) {
+      return RsData.of("F-3", "%s(은)는 이미 존재하는 아이디입니다.".formatted(username));
+    }
+
+    Member member = memberService.join(username, password);
+
+    return RsData.of("S-1", "회원가입이 완료되었습니다.", member);
+  }
+
   @GetMapping("/login")
   public String login() {
     return "usr/member/login";
