@@ -6,9 +6,7 @@ import com.sbs.basic1.boudedContext.base.rsData.RsData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,20 +17,26 @@ public class ArticleController {
   private final ArticleService articleService;
 
   @GetMapping("/write")
+  public String write() {
+    return "usr/article/write";
+  }
+
+  @PostMapping("/write")
   @ResponseBody
   public RsData write(String title, String content) {
-    if(title == null || title.trim().isBlank()) {
+    if (title == null || title.trim().isBlank()) {
       return RsData.of("F-1", "제목을 입력해주세요.");
     }
 
-    if(content == null || content.trim().isBlank()) {
+    if (content == null || content.trim().isBlank()) {
       return RsData.of("F-2", "내용을 입력해주세요.");
     }
-    
-    Article createArticle = articleService.write(title, content);
 
-    return RsData.of("S-1", "%d번 글이 생성되었습니다.".formatted(createArticle.getId()), createArticle);
+    Article article = articleService.write(title, content);
+
+    return RsData.of("S-1", "%d번 게시물이 작성되었습니다.".formatted(article.getId()), article);
   }
+
 
   @GetMapping("/list")
   public String showList(Model model) {
